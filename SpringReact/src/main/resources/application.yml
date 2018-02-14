@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: Gability Demo Spring React
+  thymeleaf:
+    cache: false
+logging:
+  level:
+    - org.springframework.security=DEBUG

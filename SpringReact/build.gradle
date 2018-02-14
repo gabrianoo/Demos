@@ -1,0 +1,76 @@
+import org.gradle.internal.os.OperatingSystem
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RC1'
+    }
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/libs-milestone' }
+        maven { url 'https://repo.spring.io/libs-snapshot' }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.9
+
+group 'com.gability.demos'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/libs-milestone' }
+    maven { url 'https://repo.spring.io/libs-snapshot' }
+}
+
+dependencies {
+    /*
+     * Compile Dependencies
+     */
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
+
+    /*
+     * Annotation Processors
+     */
+    compileOnly group: 'org.projectlombok', name: 'lombok'
+
+    /*
+     * JAVA 9 Runtime modules
+     */
+    // JAVAX.XML.BIND
+//    runtimeOnly group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+//    runtimeOnly group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0'
+//    runtimeOnly group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
+    // JAVAX.ACTIVATION
+//    runtimeOnly group: 'javax.activation', name: 'activation', version: '1.1.1'
+
+    /*
+     * Testing Dependencies
+     */
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+}
+
+clean.doFirst {
+    delete "$projectDir/src/main/resources/static/built"
+}
+
+task webpack(type: Exec) {
+    group 'build'
+    if (OperatingSystem.current().isWindows()) {
+        commandLine "cmd", "/C", "$projectDir/node_modules/.bin/webpack"
+    } else {
+        commandLine 'bash', '-c', "$projectDir/node_modules/.bin/webpack"
+    }
+}
+
+assemble.dependsOn(webpack)
