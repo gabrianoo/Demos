@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: Gability Demo OAuth2 Client
+  security:
+    oauth2:
+      client:
+        registration:
+          gabilityClient:
+            clientId: spaClientId
+            clientSecret: secret
+            clientAuthenticationMethod: basic
+            authorizationGrantType: implicit
+            clientName: Gability
+            provider: gabilityProvider
+            scope: read
+            redirectUriTemplate: "{baseUrl}/login/oauth2/code/gabilityClient"
+        provider:
+          gabilityProvider:
+            authorizationUri: http://localhost:9090/oauth/authorize
+            tokenUri: http://localhost:9090/oauth/token
+            userInfoUri: http://localhost:9090/me
+            userNameAttribute: name
+#            jwkSetUri:
+server:
+  port: 8080
+
+#	 * 	private ClientRegistration googleClientRegistration() {
+#	 * 		return ClientRegistration.withRegistrationId("google")
+#	 * 			.clientId("google-client-id")
+#	 * 			.clientSecret("google-client-secret")
+#	 * 			.clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
+#	 * 			.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+#	 * 			.redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
+#	 * 			.scope("openid", "profile", "email", "address", "phone")
+#	 * 			.authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+#	 * 			.tokenUri("https://www.googleapis.com/oauth2/v4/token")
+#	 * 			.userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+#	 * 			.userNameAttributeName(IdTokenClaimNames.SUB)
+#	 * 			.jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+#	 * 			.clientName("Google")
+#	 * 			.build();

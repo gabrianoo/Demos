@@ -1,0 +1,2 @@
+include 'provider','client'
+rootProject.name = 'oauth2'

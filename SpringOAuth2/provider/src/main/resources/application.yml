@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: Gability Demo OAuth2 Provider
+server:
+  port: 9090
